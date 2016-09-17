@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kxind.mapper.UsersMapper">
+	<select id="findById" parameterType="int" resultType="Users">
+		select *
+		from users where userid = #{userid}
+	</select>
+	<select id="findAll" resultType="Users">
+		select * from users
+	</select>
+	<insert id="save" parameterType="Users">
+		insert into
+		users(username,password,email)
+		values(#{username},#{password},#{email})
+	</insert>
+	<insert id="saveAll" >
+		insert into
+		users(username,password,email)
+		values
+		<foreach collection="list" item="user"  separator=",">
+			(#{user.username},#{user.password},#{user.email})
+		</foreach>
+	</insert>
+	<select id="findAllById" resultType="Users" >
+		select * from users
+		where userid in 
+		<foreach collection="list" item="id" open="(" close=")"  separator=",">
+			#{id}
+		</foreach>
+	</select>
+	<delete id="delete" parameterType="int">
+	delete from users where userid=#{id}
+	</delete>
+	<update id="update" parameterType="Users">
+	update users set username=#{username},password=#{password},email=#{email}
+	where userid=#{userid}
+	
+	</update>
+	
+	
+	
+</mapper>
